@@ -1,0 +1,11 @@
+node_modules
+public
+package-lock.json
+package.json
+dist
+tsconfig.app.json
+tsconfig.json
+tsconfig.node.json
+vite.config.ts
+.eslintrc.cjs
+
