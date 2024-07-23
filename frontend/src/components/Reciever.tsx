@@ -1,6 +1,9 @@
-import { useEffect } from "react";
+import { useEffect,useRef} from "react";
 
 const Reciever = () => {
+
+  const videoRef=useRef<HTMLVideoElement>(null)
+
   useEffect(() => {
     const socket = new WebSocket("ws://localhost:8080");
     socket.onopen = () => {
@@ -25,8 +28,12 @@ const Reciever = () => {
           }
         };
 
-        pc.ontrack = (track) => {
-          console.log(track);
+        pc.ontrack = (event) => {
+          console.log(event);
+          if (videoRef.current)
+          {
+            videoRef.current.srcObject = new MediaStream([event.track]);
+          }
         };
         const answer = await pc.createAnswer();
         await pc.setLocalDescription(answer);
@@ -42,7 +49,10 @@ const Reciever = () => {
     };
   }, []);
 
-  return <div>reciever</div>;
+  return <div>reciever
+    <video ref={videoRef}
+    ></video>
+  </div>;
 };
 
 export default Reciever;
