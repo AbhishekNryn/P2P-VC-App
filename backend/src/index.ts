@@ -25,12 +25,20 @@ wss.on('connection', function connection(ws) {
         }
         else if (message.type === 'createOffer')
         {   
+            if (ws !== senderSocket)
+            {
+                return;
+            }
             console.log("offer created");
             receiverSocket?.send(JSON.stringify({ type: 'createOffer', sdp: message.sdp }));
             
         }
         else if (message.type === 'createAnswer')
         {   
+            if (ws !== receiverSocket)
+            {
+                return;
+            }
             console.log("answer created");
             senderSocket?.send(JSON.stringify({ type: 'createAnswer', sdp: message.sdp }));      
         }
@@ -38,10 +46,10 @@ wss.on('connection', function connection(ws) {
         {
             if (ws === senderSocket)
             {
-                receiverSocket?.send(JSON.stringify({ type: 'icecandidate', candidate: message.candidate }));
+                receiverSocket?.send(JSON.stringify({ type: 'iceCandidate', candidate: message.candidate }));
             }
             else if(ws===receiverSocket) {
-                senderSocket?.send(JSON.stringify({ type: 'icecandidate', candidate: message.candidate }));
+                senderSocket?.send(JSON.stringify({ type: 'iceCandidate', candidate: message.candidate }));
             }
         }
         
