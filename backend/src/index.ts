@@ -42,7 +42,7 @@ wss.on('connection', function connection(ws) {
             console.log("answer created");
             senderSocket?.send(JSON.stringify({ type: 'createAnswer', sdp: message.sdp }));      
         }
-        else if (message.type === 'icecandidate')
+        else if (message.type === 'iceCandidate')
         {
             if (ws === senderSocket)
             {
